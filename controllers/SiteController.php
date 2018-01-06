@@ -283,9 +283,13 @@ class SiteController extends Controller
             return $this->goHome();
         }
         $db = new \yii\db\Query();
-        $data = $db->select(implode(',',self::$key_museumdata))->from('museumdata')->all();
-        if (isset($_GET['_debug'])){
-            return json_encode($data);
+        try{
+            $data = $db->select(implode(',',self::$key_museumdata))->from('museumdata')->all();
+            if (isset($_GET['_debug'])){
+                return json_encode($data);
+            }
+        }catch (Exception $e){
+            $data = [];
         }
         return $this->render('shenbao',['data'=>$data]);
     }
@@ -296,10 +300,15 @@ class SiteController extends Controller
             return $this->goHome();
         }
         $db = new \yii\db\Query();
-        $data = $db->select(implode(',',self::$key_expertpoint))->from('museumdata')->all();
-        if (isset($_GET['_debug'])){
-            return json_encode($data);
+        try{
+            $data = $db->select(implode(',',self::$key_expertpoint))->from('expertpoint')->all();
+            if (isset($_GET['_debug'])){
+                return json_encode($data);
+            }
+        }catch (Exception $e){
+            $data = [];
         }
+
         return $this->render('dafen',['data'=>$data]);
     }
 }
