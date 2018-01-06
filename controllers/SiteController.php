@@ -23,6 +23,9 @@ use app\models\ContactForm;
 require dirname(dirname(__FILE__)).'/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
 class SiteController extends Controller
 {
+    public static $key_museumdata = ['mid','myear','mdl111','mdl121','mdl211','mdl212','mdl213','mdl221','mdl222','mdl223','mdl224','mdl225','mdl226','mdl231','mdl232','mdl233','mdl234','mdl311','mdl312','mdl313','mdl314','mdl315','mdl321','mdl322','mdl323','mdl324','mdl325','mdl326','mdl411','mdl412','mdl421','mdl422'];
+    public static $key_expertpoint = ['eid','mid','myear','ep11','ep12','ep13','ep21','ep22','ep31','ep32','ep33','ep34','ep41','ep42','ep43','ep51','ep52','ep53','ep54'];
+
 
     public function init(){
         $this->enableCsrfValidation = false;
@@ -223,16 +226,14 @@ class SiteController extends Controller
     public function actionExpertpoint()
     {
         $file = $_FILES['file'];
-        $key = ['eid','mid','myear','ep11','ep12','ep13','ep21','ep22','ep31','ep32','ep33','ep34','ep41','ep42','ep43','ep51','ep52','ep53','ep54'];
-        return $this->upload($key,$file,'expertpoint');
+        return $this->upload(self::$key_expertpoint,$file,'expertpoint');
     }
 
 
     public function actionMuseumdata()
     {
         $file = $_FILES['file'];
-        $key = ['mid','myear','mdl111','mdl121','mdl211','mdl212','mdl213','mdl221','mdl222','mdl223','mdl224','mdl225','mdl226','mdl231','mdl232','mdl233','mdl234','mdl311','mdl312','mdl313','mdl314','mdl315','mdl321','mdl322','mdl323','mdl324','mdl325','mdl326','mdl411','mdl412','mdl421','mdl422'];
-        return $this->upload($key,$file,'museumdata');
+        return $this->upload(self::$key_museumdata,$file,'museumdata');
     }
     public function actionMuseumdlpoint()
     {
@@ -281,7 +282,12 @@ class SiteController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        return $this->render('shenbao');
+        $db = new \yii\db\Query();
+        $data = $db->select(implode(',',self::$key_museumdata))->from('museumdata')->all();
+        if (isset($_GET['_debug'])){
+            return json_encode($data);
+        }
+        return $this->render('shenbao',['data'=>$data]);
     }
 
     public function actionDafen()
@@ -289,6 +295,11 @@ class SiteController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        return $this->render('dafen');
+        $db = new \yii\db\Query();
+        $data = $db->select(implode(',',self::$key_expertpoint))->from('museumdata')->all();
+        if (isset($_GET['_debug'])){
+            return json_encode($data);
+        }
+        return $this->render('dafen',['data'=>$data]);
     }
 }
