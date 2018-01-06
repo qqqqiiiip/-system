@@ -11,8 +11,6 @@ $this->title = 'My Yii Application';
     <div class="jumbotron">
         <?php
         $model = new \app\models\GetInfo();
-        $model->begin = '';
-        $model->end = '';
         if ($model->validate()) {
             // 验证成功！
         } else {
@@ -31,6 +29,7 @@ $this->title = 'My Yii Application';
         </div>
 
         <?php ActiveForm::end(); ?>
+
     </div>
 
     <div class="body-content">

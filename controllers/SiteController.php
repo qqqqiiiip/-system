@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
+use app\models\User;
 
 use app\models\ContactForm;
 
@@ -63,6 +64,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
         $model = new GetInfo;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -82,14 +84,13 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
+
         return $this->render('login', [
             'model' => $model,
         ]);

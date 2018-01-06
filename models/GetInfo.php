@@ -24,7 +24,7 @@ class GetInfo extends Model
     {
         return [
             // name, email, subject and body are required
-//            [['name', 'email', 'subject', 'body'], 'required'],
+//            [['begin','end'], 'required'],
         ];
     }
 
@@ -33,9 +33,12 @@ class GetInfo extends Model
      */
     public function attributeLabels()
     {
-        return [
-            'verifyCode' => 'Verification Code',
-        ];
+        $data = \Yii::$app->db->createCommand('SELECT * FROM `sysuser`')->queryAll();
+        $tmp = [];
+        foreach ($data as $v){
+            $tmp[] = $v;
+        }
+        return $tmp;
     }
 
     /**
@@ -45,16 +48,7 @@ class GetInfo extends Model
      */
     public function contact($email)
     {
-        if ($this->validate()) {
-            Yii::$app->mailer->compose()
-                ->setTo($email)
-                ->setFrom([$this->email => $this->name])
-                ->setSubject($this->subject)
-                ->setTextBody($this->body)
-                ->send();
 
-            return true;
-        }
-        return false;
+
     }
 }

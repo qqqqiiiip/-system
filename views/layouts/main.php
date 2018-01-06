@@ -35,6 +35,12 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    $cookies1 = Yii::$app->request->cookies;
+    $username = '';
+    if (!Yii::$app->user->isGuest && $cookies1->has('username')) {
+        $username = $cookies1->getValue('username');
+    }
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
@@ -47,7 +53,7 @@ AppAsset::register($this);
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Logout (' .$username . ' - '. Yii::$app->user->identity->username  .  ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
@@ -63,7 +69,7 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
+        <?= $content  ?>
     </div>
 </div>
 

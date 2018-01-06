@@ -1,33 +1,23 @@
 <?php
 
 namespace app\models;
+use YIi;
 
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
     public $password;
+    public $type;
     public $authKey;
     public $accessToken;
 
     private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
+        0 => ['id'=>0,'username'=>'专家'],
+        1 => ['id'=>1,'username'=>'管理员'],
+        2 => ['id'=>2,'username'=>'超级管理员']
+
     ];
-
-
     /**
      * @inheritdoc
      */
@@ -60,11 +50,20 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     {
         $data = \Yii::$app->db->createCommand('SELECT * FROM `sysuser`')->queryAll();
         foreach ($data as $v){
-
-            $v['password'] = $v['upassword'];
-            $v['username'] = $v['uname'];
             if (strcasecmp($v['uname'], $username) === 0) {
-                return new static($v);
+
+                $cookies = Yii::$app->response->cookies;
+                $cookies->add(new \yii\web\Cookie([
+                    'name' => 'username',
+                    'value' => $v['uname']
+                ]));
+                User::$users[$v['uid']] = array(
+                    'id' => $v['utype'] == '超级管理员' ? 2 : ($v['utype'] == '管理员' ? 1 : 0),
+                    'username' => $v['uname'],
+                    'password' => $v['upassword'],
+                    'type' => $v['utype'],
+                );
+                return new User(self::$users[$v['uid']]);
             }
         }
 
@@ -93,6 +92,11 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public function validateAuthKey($authKey)
     {
         return $this->authKey === $authKey;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
