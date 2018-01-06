@@ -2,9 +2,17 @@
 
 namespace app\controllers;
 
-use app\models\GetInfo;
-use app\models\Sysuser;
+use app\models\dao\GetInfo;
+use app\models\dao\Expertinfo;
+use app\models\dao\Expertpoint;
+use app\models\dao\Museumdata;
+use app\models\dao\Museumdlpoint;
+use app\models\dao\Museumdxpoint;
+use app\models\dao\Museuminfo;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 use Yii;
+use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -12,9 +20,14 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 
 use app\models\ContactForm;
-
+require dirname(dirname(__FILE__)).'/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
 class SiteController extends Controller
 {
+
+    public function init(){
+        $this->enableCsrfValidation = false;
+    }
+
     /**
      * @inheritdoc
      */
@@ -64,16 +77,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $model = new GetInfo;
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            // 验证 $model 收到的数据
-
-            // 做些有意义的事 ...
-
-        }
-
-        return $this->render('index');
+        $model = new Expertinfo();
+        return $this->render('index',[
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -152,6 +159,10 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
@@ -163,17 +174,83 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionGetInfo()
+    public function actionGetinfo()
     {
         $model = new GetInfo();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
+        $model = json_encode($model->attributeLabels());
+        return $model;
+    }
+    public function actionExpertinfo()
+    {
+        $model = new Expertinfo();
+        $model = json_encode($model->attributeLabels());
+        return $model;
+    }
+    public function upload($key,$file,$table){
+        if (empty($key) || empty($file)){
+            return false;
         }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
+        $ret = [];
+        $n = 0;
+        $objPHPExcelReader = \PHPExcel_IOFactory::load($file['tmp_name']);
+        foreach($objPHPExcelReader->getWorksheetIterator() as $sheet)  //循环读取sheet
+        {
+            foreach($sheet->getRowIterator() as $row)  //逐行处理
+            {
+                if($row->getRowIndex()<2)  //确定从哪一行开始读取
+                {
+                    continue;
+                }
+                foreach($row->getCellIterator() as $cell)  //逐列读取
+                {
+                    if (!isset($key[$n+1])){
+                        break 3;
+                    }
+                    $data = $cell->getValue(); //获取cell中数据
+                    $ret[$key[$n++]] = $data;
+                }
+            }
+        }
+        try{
+            $db = new \yii\db\Query();
+            $db->createCommand()->insert($table, $ret)->execute();
+        }catch (Exception $e){
+            return '导入失败---已有记录';
+        }
+        return true;
+
+    }
+    public function actionExpertpoint()
+    {
+        $file = $_FILES['file'];
+        $key = ['eid','mid','myear','ep11','ep12','ep13','ep21','ep22','ep31','ep32','ep33','ep34','ep41','ep42','ep43','ep51','ep52','ep53','ep54'];
+        return $this->upload($key,$file,'expertpoint');
+    }
+
+
+    public function actionMuseumdata()
+    {
+        $file = $_FILES['file'];
+        $key = ['mid','myear','mdl111','mdl121','mdl211','mdl212','mdl213','mdl221','mdl222','mdl223','mdl224','mdl225','mdl226','mdl231','mdl232','mdl233','mdl234','mdl311','mdl312','mdl313','mdl314','mdl315','mdl321','mdl322','mdl323','mdl324','mdl325','mdl326','mdl411','mdl412','mdl421','mdl422'];
+        return $this->upload($key,$file,'museumdata');
+    }
+    public function actionMuseumdlpoint()
+    {
+        $model = new Museumdlpoint();
+        $model = json_encode($model->attributeLabels());
+        return $model;
+    }
+    public function actionMuseumdxpoint()
+    {
+        $model = new Museumdxpoint();
+        $model = json_encode($model->attributeLabels());
+        return $model;
+    }
+    public function actionMuseuminfo()
+    {
+        $model = new Museuminfo();
+        $model = json_encode($model->attributeLabels());
+        return $model;
     }
 
     /**
@@ -181,16 +258,37 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionAbout()
+    public function actionZhanghao()
     {
-        return $this->render('about');
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        return $this->render('zhanghao');
     }
+
+    public function actionTongji()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        return $this->render('tongji',[
+            'model' => $this->actionGetinfo(),
+        ]);
+    }
+
     public function actionShenbao()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return $this->render('shenbao');
     }
+
     public function actionDafen()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
         return $this->render('dafen');
     }
 }

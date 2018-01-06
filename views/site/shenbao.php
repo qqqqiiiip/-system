@@ -8,35 +8,18 @@ $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
-        <?php
-        $model = new \app\models\GetInfo();
-        if ($model->validate()) {
-            // 验证成功！
-        } else {
-            // 失败！
-            // 使用 $model->getErrors() 获取错误详情
-        }?>
-
-        <?php $form = ActiveForm::begin(); ?>
-
-        <?= $form->field($model, 'begin') ?>
-
-        <?= $form->field($model, 'end') ?>
-
-        <div class="form-group">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
-
-    </div>
-
     <div class="body-content">
 
         <div class="row">
 
         </div>
+        <form action="/basic/web/index.php?r=site/museumdata" method="post" enctype="multipart/form-data">
+            格式（a,b,c,d）（txt）
+            <input type="file" class="form-control" name="file">
+            <hr />
+            <input class="form-control"   type="submit" value="导入" >
+        </form>
+
 
     </div>
 </div>

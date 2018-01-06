@@ -19,11 +19,11 @@ if (!Yii::$app->user->isGuest && $cookies1->has('username')) {
 }
 
 
-if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级管理员'){
+if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理员'){
     $data = \Yii::$app->db->createCommand('SELECT * FROM `sysuser`')->queryAll();
     foreach ($data as $v){
         $content[] = array(
-            'id' => $v['utype'] == '超级管理员' ? 2 : ($v['utype'] == '管理员' ? 1 : 0),
+            'id' => $v['utype'] == '管理员' ? 2 : ($v['utype'] == '专家' ? 1 : 0),
             'username' => $v['uname'],
             'password' => $v['upassword'],
             'content' => $v['content'],
@@ -44,7 +44,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级�
             <th>operator</th>
         </tr>
         <tr>
-            <td><input type="text" value="<?= Html::encode("{$self['uname']}") ?>"></td>
+            <td><input type="text" value="<?= Html::encode("{$self['uname']}") ?>" readonly></td>
             <td><input type="text" value="<?= Html::encode("{$self['upassword']}") ?>"></td>
             <td><input type="text" value="<?= Html::encode("{$self['content']}") ?>"></td>
             <td><button class="btn btn-sm btn-primary">更新</button></td>
@@ -60,15 +60,15 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级�
             <th>operator</th>
         </tr>
 
-        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级管理员'):?>
+        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理员'):?>
             <tr>
                 <td><input type="text" value=""></td>
                 <td><input type="text" value=""></td>
                 <td>
                     <select id="selectID">
+                        <option value="博物馆" >博物馆</option>
                         <option value="专家"  >专家</option>
                         <option value="管理员">管理员</option>
-                        <option value="超级管理员" >超级管理员</option>
                     </select>
                 </td>
                 <td><button class="btn btn-sm btn-success">添加</button></td>
@@ -82,9 +82,9 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级�
             <td><input type="text" value="<?= Html::encode("{$value['content']}") ?>"></td>
             <td>
                 <select id="selectID">
+                    <option value="博物馆" <?php if ($value['type'] == '博物馆'):?>selected="selected" <?php endif?> >博物馆</option>
                     <option value="专家" <?php if ($value['type'] == '专家'):?>selected="selected" <?php endif?>  >专家</option>
                     <option value="管理员"<?php if ($value['type'] == '管理员'):?>selected="selected" <?php endif?> >管理员</option>
-                    <option value="超级管理员" <?php if ($value['type'] == '超级管理员'):?>selected="selected" <?php endif?> >超级管理员</option>
                 </select>
             </td>
             <td><button class="btn btn-sm btn-danger">删除</button> <button class="btn btn-sm btn-primary">保存</button></td>
@@ -128,6 +128,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级�
             dataType: "json"
         }).done(function (ret) {
             alert('success');
+            window.location.reload()
         }).fail(function () {
             alert('failed');
         });

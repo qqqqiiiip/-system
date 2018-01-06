@@ -9,14 +9,7 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="jumbotron">
-        <?php
-        $model = new \app\models\GetInfo();
-        if ($model->validate()) {
-            // 验证成功！
-        } else {
-            // 失败！
-            // 使用 $model->getErrors() 获取错误详情
-        }?>
+
 
         <?php $form = ActiveForm::begin(); ?>
 
@@ -29,7 +22,6 @@ $this->title = 'My Yii Application';
         </div>
 
         <?php ActiveForm::end(); ?>
-
     </div>
 
     <div class="body-content">

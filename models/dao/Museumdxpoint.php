@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\dao;
 
 use Yii;
 use yii\base\Model;
@@ -8,7 +8,7 @@ use yii\base\Model;
 /**
  * ContactForm is the model behind the contact form.
  */
-class GetInfo extends Model
+class Museumdxpoint extends Model
 {
     public $begin;
     public $end;
@@ -23,7 +23,6 @@ class GetInfo extends Model
     public function rules()
     {
         return [
-            // name, email, subject and body are required
 //            [['begin','end'], 'required'],
         ];
     }
@@ -33,10 +32,15 @@ class GetInfo extends Model
      */
     public function attributeLabels()
     {
-        $data = \Yii::$app->db->createCommand('SELECT * FROM `sysuser`')->queryAll();
+
+        $db = new \yii\db\Query();
+        $data = $db->select('uname,upassword')->from('sysuser')->all();
+//        $data = $db->createCommand('SELECT * FROM `sysuser`')->queryAll();
         $tmp = [];
-        foreach ($data as $v){
-            $tmp[] = $v;
+        if (!empty($data)){
+            foreach ($data as $v){
+                $tmp[] = $v;
+            }
         }
         return $tmp;
     }

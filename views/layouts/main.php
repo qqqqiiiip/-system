@@ -46,11 +46,13 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => '主页', 'url' => ['/site/index']],
-            ['label' => '申报表管理', 'url' => ['/site/shenbao']],
-            ['label' => '打分表管理功能', 'url' => ['/site/dafen']],
-            ['label' => '统计', 'url' => ['/site/contact']],
-            ['label' => '账号管理', 'url' => ['/site/about']],
+            !Yii::$app->user->isGuest ? ['label' => '主页', 'url' => ['/site/index']] : '',
+            (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='博物馆') ||
+            (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ? ['label' => '申报表管理', 'url' => ['/site/shenbao']] : '',
+            (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='专家') ||
+            (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ? ['label' => '打分表管理功能', 'url' => ['/site/dafen']] : '',
+            !Yii::$app->user->isGuest ?['label' => '统计', 'url' => ['/site/contact']] : '',
+            !Yii::$app->user->isGuest ? ['label' => '账号管理', 'url' => ['/site/zhanghao']] : '',
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

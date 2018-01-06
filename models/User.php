@@ -14,9 +14,9 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $accessToken;
 
     private static $users = [
-        0 => ['id'=>0,'username'=>'专家'],
-        1 => ['id'=>1,'username'=>'管理员'],
-        2 => ['id'=>2,'username'=>'超级管理员']
+        0 => ['id'=>0,'username'=>'博物馆'],
+        1 => ['id'=>1,'username'=>'专家'],
+        2 => ['id'=>2,'username'=>'管理员']
 
     ];
     /**
@@ -59,7 +59,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
                     'value' => $v['uname']
                 ]));
                 User::$users[$v['uid']] = array(
-                    'id' => $v['utype'] == '超级管理员' ? 2 : ($v['utype'] == '管理员' ? 1 : 0),
+                    'id' => $v['utype'] == '管理员' ? 2 : ($v['utype'] == '专家' ? 1 : 0),
                     'username' => $v['uname'],
                     'password' => $v['upassword'],
                     'content' => $v['content'],
