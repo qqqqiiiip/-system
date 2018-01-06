@@ -8,6 +8,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $id;
     public $username;
     public $password;
+    public $content;
     public $type;
     public $authKey;
     public $accessToken;
@@ -61,6 +62,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
                     'id' => $v['utype'] == '超级管理员' ? 2 : ($v['utype'] == '管理员' ? 1 : 0),
                     'username' => $v['uname'],
                     'password' => $v['upassword'],
+                    'content' => $v['content'],
                     'type' => $v['utype'],
                 );
                 return new User(self::$users[$v['uid']]);

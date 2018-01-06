@@ -3,13 +3,13 @@
 namespace app\controllers;
 
 use app\models\GetInfo;
+use app\models\Sysuser;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\User;
 
 use app\models\ContactForm;
 
@@ -64,7 +64,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-
         $model = new GetInfo;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -84,13 +83,14 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
-
         return $this->render('login', [
             'model' => $model,
         ]);
@@ -108,10 +108,42 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    public function actionSay($message = 'Hello')
+    public function actionChange()
     {
-        return $this->render('say', ['message' => $message]);
+        $info =Yii::$app->request->post();
+
+        $db = new \yii\db\Query();
+        if (!empty($info['utype'])) {
+            $db->createCommand()->update('`sysuser`', ['utype' => $info['utype']], 'uname=:uname', [':uname' => $info['uname']])->execute();
+        }
+        if (!empty($info['upassword'])) {
+            $db->createCommand()->update('`sysuser`', ['upassword' => $info['upassword']], 'uname=:uname', [':uname' => $info['uname']])->execute();
+        }
+
+        $db->createCommand()->update('`sysuser`',['content'=>$info['ucontent']],'uname=:uname',[':uname'=>$info['uname']])->execute();
+
+        return true;
     }
+
+    public function actionAdd()
+    {
+        $info =Yii::$app->request->post();
+
+        $db = new \yii\db\Query();
+        $db->createCommand()->insert('`sysuser`',['utype'=>$info['utype'],'upassword'=>123456,'content'=>$info['ucontent'],'uname'=>$info['uname']])->execute();
+        return true;
+    }
+
+
+    public function actionDelete()
+    {
+        $info =Yii::$app->request->post();
+        $db = new \yii\db\Query();
+        $db->createCommand()->delete('`sysuser`','uname=:uname',[':uname'=>$info['uname']])->execute();
+
+        echo true;
+    }
+
 
     /**
      * Displays contact page.
