@@ -185,4 +185,12 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+    public function actionShenbao()
+    {
+        return $this->render('shenbao');
+    }
+    public function actionDafen()
+    {
+        return $this->render('dafen');
+    }
 }

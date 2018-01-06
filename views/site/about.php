@@ -51,6 +51,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级�
         </tr>
     </table>
     <br>
+    <?php if (!empty($content)): ?>
     <table>
         <tr>
             <th>username</th>
@@ -58,6 +59,22 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级�
             <th>type</th>
             <th>operator</th>
         </tr>
+
+        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级管理员'):?>
+            <tr>
+                <td><input type="text" value=""></td>
+                <td><input type="text" value=""></td>
+                <td>
+                    <select id="selectID">
+                        <option value="专家"  >专家</option>
+                        <option value="管理员">管理员</option>
+                        <option value="超级管理员" >超级管理员</option>
+                    </select>
+                </td>
+                <td><button class="btn btn-sm btn-success">添加</button></td>
+            </tr>
+        <?php endif?>
+
 
         <?php foreach ($content as $value): ?>
         <tr>
@@ -73,23 +90,9 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级�
             <td><button class="btn btn-sm btn-danger">删除</button> <button class="btn btn-sm btn-primary">保存</button></td>
         </tr>
     <?php endforeach;  ?>
-        <?php if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级管理员'):?>
-        <tr>
-            <td><input type="text" value=""></td>
-            <td><input type="text" value=""></td>
-            <td>
-                <select id="selectID">
-                    <option value="专家"  >专家</option>
-                    <option value="管理员">管理员</option>
-                    <option value="超级管理员" >超级管理员</option>
-                </select>
-            </td>
-            <td><button class="btn btn-sm btn-success">添加</button></td>
-        </tr>
-        <?php endif?>
-
     </table>
-    <code><?= __FILE__ ?></code>
+    <?php endif?>
+<!--    <code>--><?//= __FILE__ ?><!--</code>-->
 
 
 </div>
@@ -140,6 +143,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '超级�
             data: {uname:uname,ucontent:ucontent,utype:utype},
             dataType: "json"
         }).done(function (ret) {
+            alert('success');
             window.location.reload()
         }).fail(function () {
             alert('failed');
