@@ -74,9 +74,8 @@ AppAsset::register($this);
 </div>
 
 <footer class="footer">
-    <div class="container">
+    <div class="constainer">
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
 
