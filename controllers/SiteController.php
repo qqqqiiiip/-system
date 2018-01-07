@@ -299,6 +299,12 @@ class SiteController extends Controller
             unset($conditicon['num']);
             $db = new \yii\db\Query();
             $db = $db->select(implode(',',$key));
+            if ($table === 'museumdata' && Yii::$app->user->identity->username === '博物馆'){
+                $db = $db->where(['uid' => $_COOKIE['uid']]);
+            }
+            if ($table === 'expertpoint' && Yii::$app->user->identity->username === '博物馆'){
+                $db = $db->where(['eid' => $_COOKIE['uid']]);
+            }
             if (!empty($conditicon)) {
                 foreach ($conditicon as $k => $v) {
                     if (empty($v)){

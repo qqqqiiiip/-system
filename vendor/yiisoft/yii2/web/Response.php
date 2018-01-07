@@ -864,7 +864,6 @@ class Response extends \yii\base\Response
         }
 
         $this->setStatusCode($statusCode);
-
         return $this;
     }
 

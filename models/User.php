@@ -58,6 +58,10 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
                     'name' => 'username',
                     'value' => $v['uname']
                 ]));
+                $cookies->add(new \yii\web\Cookie([
+                    'name' => 'uid',
+                    'value' => $v['uid']
+                ]));
                 User::$users[$v['uid']] = array(
                     'id' => $v['utype'] == '管理员' ? 2 : ($v['utype'] == '专家' ? 1 : 0),
                     'username' => $v['uname'],

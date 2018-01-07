@@ -311,6 +311,8 @@ class User extends Component
     {
         $identity = $this->getIdentity();
         if ($identity !== null && $this->beforeLogout($identity)) {
+            unset($_COOKIE['uid']);
+            unset($_COOKIE['username']);
             $this->switchIdentity(null);
             $id = $identity->getId();
             $ip = Yii::$app->getRequest()->getUserIP();
