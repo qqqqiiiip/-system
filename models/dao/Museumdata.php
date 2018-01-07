@@ -2,9 +2,11 @@
 
 namespace app\models\dao;
 
+use app\controllers\SiteController;
 use Yii;
 use yii\base\Model;
 use yii\db\Exception;
+use yii\web\UploadedFile;
 
 /**
  * ContactForm is the model behind the contact form.
@@ -18,15 +20,14 @@ class Museumdata extends Model
     public $body;
     public $verifyCode;
 
-    public $arr = ['begin','end','file'];
-
     /**
      * @return array the validation rules.
      */
     public function rules()
     {
         return [
-//            [['file'], 'file', 'skipOnEmpty' => false],
+            [['file'], 'required'],
+            [['file'], 'file', 'extensions' => 'xls'],
         ];
     }
 
@@ -36,22 +37,15 @@ class Museumdata extends Model
      */
     public function attributeLabels()
     {
-        $param = [];
-        foreach ($this->arr as $v){
-            if (isset($_POST[$v])){
-                $param[$v] = $_POST[$v];
+        $model = new self();
+        if (Yii::$app->request->isPost) {
+            $model->file = UploadedFile::getInstances($model, 'file');
+            if (!empty($model->file[0]->tempName)) {
+                SiteController::upload(SiteController::$key_museumdata, $model->file, 'museumdata');
+                echo '上传成功';
+                exit;
             }
         }
-        return 1;
-//        $db = new \yii\db\Query();
-//        $data = $db->select('mtype')->from('museuminfo')->all();
-//        $tmp = [];
-//        if (!empty($data)){
-//            foreach ($data as $v){
-//                $tmp[] = $v;
-//            }
-//        }
-//        return $tmp;
     }
 
     /**

@@ -23,7 +23,10 @@ use app\models\ContactForm;
 require dirname(dirname(__FILE__)).'/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
 class SiteController extends Controller
 {
+    public static $museumdata = ['博物馆记录号','评审年份','藏品搜集数量/件','藏品修复数量/件','省部级以上研究项目（包含国际合作研究项目） /项','横向合作研究项目/项','其他研究项目/项','省部级以上获奖成果/项','著作/部','图录/本','论文/篇','科普读物、教材/本','获得专利数/项','举办国际性学术会议/次','举办国内学术会议/次','参加国际性学术会议/人次','参加国内学术会议/人次','省部级以上获奖陈列展览/个','原创性临时展览/个','引进临时展览/个','输出原创性展览/个','观众数/万人','专题讲座、论坛/项','中小学教育项目/项','家庭教育项目/项','社区教育项目/项','教师培训项目/项','其他教育项目/项','获省部级（含）以上的荣誉称号和获奖者（50岁以下） /人','高级职称者（45岁以下） /人','出国进修（培训）人员（含访问学者） /人','国内进修（培训） 人员/人'];
     public static $key_museumdata = ['mid','myear','mdl111','mdl121','mdl211','mdl212','mdl213','mdl221','mdl222','mdl223','mdl224','mdl225','mdl226','mdl231','mdl232','mdl233','mdl234','mdl311','mdl312','mdl313','mdl314','mdl315','mdl321','mdl322','mdl323','mdl324','mdl325','mdl326','mdl411','mdl412','mdl421','mdl422'];
+
+    public static $expertpoint = ['专家记录号','博物馆记录号','评审年份','藏品搜集打分','藏品保护打分','藏品保管打分','学术活动打分','代表性研究成果打分','基本陈列打分','代表性原创临时展览打分','博物馆讲解打分','教育项目打分','公共关系打分','公众服务打分','博物馆网站打分','发展规划打分','制度建设打分','安全管理打分','人才培养打分'];
     public static $key_expertpoint = ['eid','mid','myear','ep11','ep12','ep13','ep21','ep22','ep31','ep32','ep33','ep34','ep41','ep42','ep43','ep51','ep52','ep53','ep54'];
 
 
@@ -189,13 +192,13 @@ class SiteController extends Controller
         $model = json_encode($model->attributeLabels());
         return $model;
     }
-    public function upload($key,$file,$table){
+    public static function upload($key,$file,$table){
         if (empty($key) || empty($file)){
             return false;
         }
         $ret = [];
         $n = 0;
-        $objPHPExcelReader = \PHPExcel_IOFactory::load($file['tmp_name']);
+        $objPHPExcelReader = \PHPExcel_IOFactory::load($file[0]->tempName);
         foreach($objPHPExcelReader->getWorksheetIterator() as $sheet)  //循环读取sheet
         {
             foreach($sheet->getRowIterator() as $row)  //逐行处理
@@ -225,15 +228,13 @@ class SiteController extends Controller
     }
     public function actionExpertpoint()
     {
-        $file = $_FILES['file'];
-        return $this->upload(self::$key_expertpoint,$file,'expertpoint');
+
     }
 
 
     public function actionMuseumdata()
     {
-        $file = $_FILES['file'];
-        return $this->upload(self::$key_museumdata,$file,'museumdata');
+
     }
     public function actionMuseumdlpoint()
     {
@@ -277,21 +278,57 @@ class SiteController extends Controller
         ]);
     }
 
+    public function postData(){
+        $condition = ['num' => 0];
+        if (!isset($_POST['key_list'])){
+            return $condition;
+        }
+        $key_list = explode(',',$_POST['key_list']);
+        foreach ($key_list as $v){
+            if (isset($_POST[$v])){
+                $condition[$v] = $_POST[$v];
+            }
+        }
+        return $condition;
+    }
+
+    public function getInfo($key,$table,$conditicon){
+        $data = [];
+        try{
+            $num = $conditicon['num'];
+            unset($conditicon['num']);
+            $db = new \yii\db\Query();
+            $db = $db->select(implode(',',$key));
+            if (!empty($conditicon)) {
+                foreach ($conditicon as $k => $v) {
+                    if (empty($v)){
+                        continue;
+                    }
+                    $db = $db->where([$k => $v]);
+                }
+            }
+
+            $data = $db->offset($num * 10)->limit(10)->from($table)->all();
+//            var_dump($conditicon);exit;
+        }catch (Exception $e){
+            echo $e->getMessage();
+            exit;
+        }
+        return $data;
+    }
+
     public function actionShenbao()
     {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        $db = new \yii\db\Query();
-        try{
-            $data = $db->select(implode(',',self::$key_museumdata))->from('museumdata')->all();
-            if (isset($_GET['_debug'])){
-                return json_encode($data);
-            }
-        }catch (Exception $e){
-            $data = [];
+        $model = new Museumdata();
+        $condition = $this->postData();
+        $data = $this->getInfo(self::$key_museumdata,'museumdata',$condition);
+        if (isset($_GET['_debug'])){
+            return json_encode($data);
         }
-        return $this->render('shenbao',['data'=>$data]);
+        return $this->render('shenbao',['model'=>$model,'data'=>$data,'th' => self::$museumdata,'keys' => self::$key_museumdata]);
     }
 
     public function actionDafen()
@@ -299,16 +336,12 @@ class SiteController extends Controller
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        $db = new \yii\db\Query();
-        try{
-            $data = $db->select(implode(',',self::$key_expertpoint))->from('expertpoint')->all();
-            if (isset($_GET['_debug'])){
-                return json_encode($data);
-            }
-        }catch (Exception $e){
-            $data = [];
+        $model = new Expertpoint();
+        $condition = $this->postData();
+        $data = $this->getInfo(self::$key_expertpoint,'expertpoint',$condition);
+        if (isset($_GET['_debug'])){
+            return json_encode($data);
         }
-
-        return $this->render('dafen',['data'=>$data]);
+        return $this->render('dafen',['model'=>$model,'data'=>$data,'th' => self::$expertpoint,'keys' => self::$key_expertpoint]);
     }
 }

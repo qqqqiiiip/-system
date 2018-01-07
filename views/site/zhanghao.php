@@ -76,7 +76,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
         <?php endif?>
 
 
-        <?php foreach ($content as $value): ?>
+    <?php foreach ($content as $value): ?>
         <tr>
             <td><input type="text" value="<?= Html::encode("{$value['username']}") ?>" readonly></td>
             <td><input type="text" value="<?= Html::encode("{$value['content']}") ?>"></td>

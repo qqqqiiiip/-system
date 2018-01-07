@@ -1,17 +1,16 @@
 <?php
 
 namespace app\models\dao;
-
+use yii\web\UploadedFile;
 use Yii;
 use yii\base\Model;
-
+use app\controllers\SiteController;
 /**
  * ContactForm is the model behind the contact form.
  */
 class Expertpoint extends Model
 {
-    public $begin;
-    public $end;
+    public $file;
     public $subject;
     public $body;
     public $verifyCode;
@@ -23,26 +22,24 @@ class Expertpoint extends Model
     public function rules()
     {
         return [
-//            [['begin','end'], 'required'],
+            [['file'], 'required'],
+            [['file'], 'file', 'extensions' => 'xls'],
         ];
     }
-
     /**
      * @return array customized attribute labels
      */
     public function attributeLabels()
     {
-
-        $db = new \yii\db\Query();
-        $data = $db->select('uname,upassword')->from('sysuser')->all();
-//        $data = $db->createCommand('SELECT * FROM `sysuser`')->queryAll();
-        $tmp = [];
-        if (!empty($data)){
-            foreach ($data as $v){
-                $tmp[] = $v;
+        $model = new self();
+        if (Yii::$app->request->isPost) {
+            $model->file = UploadedFile::getInstances($model, 'file');
+            if (!empty($model->file[0]->tempName)) {
+                SiteController::upload(SiteController::$key_expertpoint, $model->file, 'expertpoint');
+                echo '上传成功';
+                exit;
             }
         }
-        return $tmp;
     }
 
     /**
