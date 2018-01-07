@@ -196,35 +196,53 @@ class SiteController extends Controller
             return false;
         }
         $ret = [];
-        $n = 0;
 
         require dirname(dirname(__FILE__)).'/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
         $objPHPExcelReader = \PHPExcel_IOFactory::load($file[0]->tempName);
+        $content = "导入结果:</br>";
         foreach($objPHPExcelReader->getWorksheetIterator() as $sheet)  //循环读取sheet
         {
+            $k = 0;
             foreach($sheet->getRowIterator() as $row)  //逐行处理
             {
-                if($row->getRowIndex()<2)  //确定从哪一行开始读取
+                if($row->getRowIndex() == 1)  //确定从哪一行开始读取
                 {
+                    foreach($row->getCellIterator() as $cell)  //逐列读取
+                    {
+                        $k++;
+                        if ($cell->getValue() === '评审年份'){
+                            break;
+                        }
+                    }
                     continue;
                 }
+                $year = '';
+                $n = 0;
                 foreach($row->getCellIterator() as $cell)  //逐列读取
                 {
+                    if (($n == 0 && empty($cell->getValue()))){
+                        continue 2;
+                    }
                     if (!isset($key[$n+1])){
-                        break 3;
+                        break;
                     }
                     $data = $cell->getValue(); //获取cell中数据
+                    if ($k == $n + 1){
+                        $year .= $data;
+                    }
                     $ret[$key[$n++]] = $data;
+                }
+                try{
+                    $db = new \yii\db\Query();
+                    $db->createCommand()->insert($table, $ret)->execute();
+                    $content .= $year . ' 导入成功' . "</br>";
+                }catch (Exception $e){
+//                    var_dump($year);
+                    $content .= $year . ' 导入失败 reason:已有记录 请先执行删除操作'."</br>";
                 }
             }
         }
-        try{
-            $db = new \yii\db\Query();
-            $db->createCommand()->insert($table, $ret)->execute();
-        }catch (Exception $e){
-            return '导入失败---已有记录';
-        }
-        return true;
+        return $content;
 
     }
     public function actionExpertpoint()
@@ -340,7 +358,60 @@ class SiteController extends Controller
         if (isset($_GET['_debug'])){
             return json_encode($data);
         }
-        return $this->render('shenbao',['model'=>$model,'data'=>$data,'th' => self::$museumdata,'keys' => self::$key_museumdata]);
+        return $this->render('shenbao',['model'=>$model,'data'=>$data,'th' => self::$museumdata,'keys' => self::$key_museumdata,'condition' => $condition]);
+    }
+
+    public function actionExport(){
+        if (!isset($_GET['condition']) || !isset($_GET['type'])){
+            exit;
+        }
+        ob_start();
+        $table = $_GET['type'] == 'muse' ? 'museumdata' : 'expertpoint';
+        $key = $_GET['type'] == 'muse' ? self::$key_museumdata : self::$key_expertpoint;
+        $title = $_GET['type'] == 'muse' ? self::$museumdata : self::$expertpoint;
+        $condition = json_decode($_GET['condition'],true);
+        $data =  $this->getInfo($key,$table,$condition);
+        $result = [];
+        foreach ($data as $k => $v){
+            $tmp = [];
+            foreach ($v as $kk => $vv){
+                $tmp[] = $vv;
+            }
+            $result[] = $tmp;
+        }
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A1', '21312');
+        $num = 1;
+        foreach ($title as $k => $v){
+            $num_chr = $num;
+            if($k + 65 > 90){
+                $num_chr = chr(($k  - 26) + 65).$num;
+                $k = 0;
+            }
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue(chr($k + 65).$num_chr, $v);
+        }
+        foreach ($result as $k => $v) {
+            $num++;
+            foreach ($v as $kk => $vv){
+                $num_chr = $num;
+                if($kk + 65 > 90){
+                    $num_chr = chr(($kk  - 26) + 65).$num;
+                    $kk = 0;
+                }
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue(chr($kk + 65).$num_chr, $vv);
+            }
+
+        }
+//        $objPHPExcel->getActiveSheet()->setTitle('');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . date('Y-m-d') . '.xls"');
+        header('Cache-Control: max-age=0');
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save('php://output');
+        ob_end_flush();
     }
 
     public function actionDafen()
@@ -354,6 +425,6 @@ class SiteController extends Controller
         if (isset($_GET['_debug'])){
             return json_encode($data);
         }
-        return $this->render('dafen',['model'=>$model,'data'=>$data,'th' => self::$expertpoint,'keys' => self::$key_expertpoint]);
+        return $this->render('dafen',['model'=>$model,'data'=>$data,'th' => self::$expertpoint,'keys' => self::$key_expertpoint,'condition' => $condition]);
     }
 }

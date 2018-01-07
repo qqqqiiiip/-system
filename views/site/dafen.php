@@ -25,9 +25,11 @@ $this->title = 'My Yii Application';
             评审年份:<select name="myear"  id="myYear"">
                 <option value=""></option>
             </select>
-            <input type="hidden" name="key_list" value="myear">
+            藏品搜集打分:<input type="text" name="ep11" value="">
+            <input type="hidden" name="key_list" value="myear,ep11">
             <input class=""   type="submit" value="筛选" >
         </form>
+        <button id="export" class="btn-success btn-sm btn"><a target="_blank" href="/basic/web/index.php?r=site/export&type=expert&condition=<?= Html::encode(json_encode($condition)) ?>">导出excel</a></button>
         <table>
             <tr>
                 <?php foreach ($th as $v): ?>

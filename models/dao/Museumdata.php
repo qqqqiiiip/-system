@@ -41,8 +41,8 @@ class Museumdata extends Model
         if (Yii::$app->request->isPost) {
             $model->file = UploadedFile::getInstances($model, 'file');
             if (!empty($model->file[0]->tempName)) {
-                SiteController::upload(SiteController::$key_museumdata, $model->file, 'museumdata');
-                echo '上传成功';
+                $result = SiteController::upload(SiteController::$key_museumdata, $model->file, 'museumdata');
+                echo $result;
                 exit;
             }
         }
