@@ -302,8 +302,8 @@ class SiteController extends Controller
             $db = $db->select(implode(',',$key));
             $cookies1 = Yii::$app->request->cookies;
             $id = 0;
-            if (!Yii::$app->user->isGuest && $cookies1->has('username')) {
-                $id = $cookies1->getValue('username');
+            if (!Yii::$app->user->isGuest && $cookies1->has('uid')) {
+                $id = $cookies1->getValue('uid');
             }
             if ($table === 'museumdata' && Yii::$app->user->identity->username === '博物馆'){
                 $db = $db->where(['mid' => $id]);
