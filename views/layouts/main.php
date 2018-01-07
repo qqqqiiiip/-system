@@ -28,7 +28,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+<div class="wrap" background="bgimage.jpg">
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
@@ -51,6 +51,7 @@ AppAsset::register($this);
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ? ['label' => '申报表管理', 'url' => ['/site/shenbao']] : '',
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='专家') ||
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ? ['label' => '打分表管理功能', 'url' => ['/site/dafen']] : '',
+            !Yii::$app->user->isGuest ?['label' => 'jisuan', 'url' => ['/site/jisuan']] : '',
             !Yii::$app->user->isGuest ?['label' => '统计', 'url' => ['/site/contact']] : '',
             !Yii::$app->user->isGuest ? ['label' => '账号管理', 'url' => ['/site/zhanghao']] : '',
             Yii::$app->user->isGuest ? (

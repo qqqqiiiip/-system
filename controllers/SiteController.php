@@ -268,7 +268,13 @@ class SiteController extends Controller
         }
         return $this->render('zhanghao');
     }
-
+    public function actionJisuan()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        return $this->render('jisuan');
+    }
     public function actionTongji()
     {
         if (Yii::$app->user->isGuest) {
