@@ -20,7 +20,6 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 
 use app\models\ContactForm;
-require dirname(dirname(__FILE__)).'/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
 class SiteController extends Controller
 {
     public static $museumdata = ['博物馆记录号','评审年份','藏品搜集数量/件','藏品修复数量/件','省部级以上研究项目（包含国际合作研究项目） /项','横向合作研究项目/项','其他研究项目/项','省部级以上获奖成果/项','著作/部','图录/本','论文/篇','科普读物、教材/本','获得专利数/项','举办国际性学术会议/次','举办国内学术会议/次','参加国际性学术会议/人次','参加国内学术会议/人次','省部级以上获奖陈列展览/个','原创性临时展览/个','引进临时展览/个','输出原创性展览/个','观众数/万人','专题讲座、论坛/项','中小学教育项目/项','家庭教育项目/项','社区教育项目/项','教师培训项目/项','其他教育项目/项','获省部级（含）以上的荣誉称号和获奖者（50岁以下） /人','高级职称者（45岁以下） /人','出国进修（培训）人员（含访问学者） /人','国内进修（培训） 人员/人'];
@@ -198,6 +197,8 @@ class SiteController extends Controller
         }
         $ret = [];
         $n = 0;
+
+        require dirname(dirname(__FILE__)).'/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
         $objPHPExcelReader = \PHPExcel_IOFactory::load($file[0]->tempName);
         foreach($objPHPExcelReader->getWorksheetIterator() as $sheet)  //循环读取sheet
         {
@@ -299,11 +300,16 @@ class SiteController extends Controller
             unset($conditicon['num']);
             $db = new \yii\db\Query();
             $db = $db->select(implode(',',$key));
-            if ($table === 'museumdata' && Yii::$app->user->identity->username === '博物馆'){
-                $db = $db->where(['uid' => $_COOKIE['uid']]);
+            $cookies1 = Yii::$app->request->cookies;
+            $id = 0;
+            if (!Yii::$app->user->isGuest && $cookies1->has('username')) {
+                $id = $cookies1->getValue('username');
             }
-            if ($table === 'expertpoint' && Yii::$app->user->identity->username === '博物馆'){
-                $db = $db->where(['eid' => $_COOKIE['uid']]);
+            if ($table === 'museumdata' && Yii::$app->user->identity->username === '博物馆'){
+                $db = $db->where(['mid' => $id]);
+            }
+            if ($table === 'expertpoint' && Yii::$app->user->identity->username === '专家'){
+                $db = $db->where(['eid' => $id]);
             }
             if (!empty($conditicon)) {
                 foreach ($conditicon as $k => $v) {
