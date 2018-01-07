@@ -35,8 +35,8 @@ class Expertpoint extends Model
         if (Yii::$app->request->isPost) {
             $model->file = UploadedFile::getInstances($model, 'file');
             if (!empty($model->file[0]->tempName)) {
-                SiteController::upload(SiteController::$key_expertpoint, $model->file, 'expertpoint');
-                echo '上传成功';
+                $result = SiteController::upload(SiteController::$key_expertpoint, $model->file, 'expertpoint');
+                echo $result;
                 exit;
             }
         }

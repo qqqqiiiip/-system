@@ -29,6 +29,7 @@ $this->title = 'My Yii Application';
             <input type="hidden" name="key_list" value="myear">
             <input class=""   type="submit" value="筛选" >
         </form>
+        <button id="export" class="btn-success btn-sm btn"><a target="_blank" href="/basic/web/index.php?r=site/export&type=muse&condition=<?= Html::encode(json_encode($condition)) ?>">导出excel</a></button>
 
         <table>
             <tr>
@@ -59,4 +60,20 @@ $this->title = 'My Yii Application';
             obj.options.add(new Option(i,i));
         }
     }
+
+    $('#export').click(function (data) {
+        if(!isArray(data)){
+            return;
+        }
+        $.post({
+            url: "/basic/web/index.php?r=site/export",
+            data: data,
+            dataType: "json"
+        }).done(function (ret) {
+            alert('success');
+            window.location.reload()
+        }).fail(function () {
+            alert('failed');
+        });
+    });
 </script>
