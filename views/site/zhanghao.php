@@ -45,8 +45,8 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
                 'username' => $v['username'],
                 'password' => $v['password'],
                 'content' => isset(explode(',',$v['content'])[2]) ? explode(',',$v['content'])[2] : '',
-                'level' => explode(',',$v['content'])[1],
-                'fenlei' => explode(',',$v['content'])[0],
+                'level' => isset(explode(',',$v['content'])[1]) ?  explode(',',$v['content'])[1]:'',
+                'fenlei' => isset(explode(',',$v['content'])[0]) ? explode(',',$v['content'])[0]:'',
                 'type' => $v['type'],
             );
         }
