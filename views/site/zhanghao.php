@@ -21,7 +21,7 @@ if (!Yii::$app->user->isGuest && $cookies1->has('username')) {
         $self[0]['content_a'] .= $v . ',';
     }
     $self[0]['content_a'] = trim($self[0]['content_a'],',');
-    $self[0]['content'] = explode(',',$self[0]['content'])[count($self[0]['content'])];
+    $self[0]['content'] = isset(explode(',',$self[0]['content'])[count($self[0]['content'])]) ? explode(',',$self[0]['content'])[count($self[0]['content'])] : '';
     $self = $self[0];
 }
 
