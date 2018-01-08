@@ -25,6 +25,13 @@ AppAsset::register($this);
     </script>
     <?php $this->head() ?>
 </head>
+
+<style>
+    th,td{
+        padding-left: 10px;
+    }
+</style>
+
 <body>
 <?php $this->beginBody() ?>
 
@@ -47,8 +54,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             !Yii::$app->user->isGuest ? ['label' => '主页', 'url' => ['/site/index']] : '',
-            (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='博物馆') ||
-            (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ? ['label' => '申报表管理', 'url' => ['/site/shenbao']] : '',
+            !Yii::$app->user->isGuest  ? ['label' => '申报表管理', 'url' => ['/site/shenbao']] : '',
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='专家') ||
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ? ['label' => '打分表管理功能', 'url' => ['/site/dafen']] : '',
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员')  ?['label' => 'jisuan', 'url' => ['/site/jisuan']] : '',

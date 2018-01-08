@@ -155,6 +155,21 @@ class SiteController extends Controller
         echo true;
     }
 
+    public function actionDeletemus()
+    {
+        $info =Yii::$app->request->post();
+        $db = new \yii\db\Query();
+        $db->createCommand()->delete('`museumdata`','mid=:mid and myear=:myear',[':mid'=>$info['mid'],':myear'=>$info['myear']])->execute();
+        echo true;
+    }
+
+    public function actionDeleteexp()
+    {
+        $info =Yii::$app->request->post();
+        $db = new \yii\db\Query();
+        $db->createCommand()->delete('`expertpoint`','eid=:eid and mid=:mid and myear=:myear',[':mid'=>$info['mid'],':eid'=>$info['eid'],':myear'=>$info['myear']])->execute();
+        echo true;
+    }
 
     /**
      * Displays contact page.
@@ -316,14 +331,29 @@ class SiteController extends Controller
         return $condition;
     }
 
-    public function getInfo($key,$table,$conditicon){
+    public function getInfo($key_list,$table,$conditicon){
         $data = [];
         try{
             $num = $conditicon['num'];
             unset($conditicon['num']);
             $db = new \yii\db\Query();
-            $db = $db->select(implode(',',$key));
             $cookies1 = Yii::$app->request->cookies;
+            $username = $cookies1->getValue('username');
+            $self = \Yii::$app->db->createCommand("SELECT * FROM `sysuser` where uname = '".$username."'")->queryAll();
+            $keys = implode(',',$key_list);
+            if ($self[0]['utype'] == '专家' && $table == 'expertpoint'){
+                $fenlei = isset(explode(',',$self[0]['content'])[0]) ? explode(',',$self[0]['content'])[0]:'';
+                $key = self::$key_expertpoint ;
+                $mean = self::$expertpoint;
+                for ($i = 0 ; $i < count($mean); $i++){
+                    if ($fenlei . '打分' == $mean[$i]){
+                        $fenlei = $key[$i];
+                    }
+                }
+                $keys = 'eid,mid,myear,' . $fenlei;
+            }
+            $db = $db->select($keys);
+
             $id = 0;
             if (!Yii::$app->user->isGuest && $cookies1->has('uid')) {
                 $id = $cookies1->getValue('uid');
@@ -343,13 +373,59 @@ class SiteController extends Controller
                 }
             }
 
-            $data = $db->offset($num * 10)->limit(10)->from($table)->all();
+            $data = $db->from($table)->all();
 //            var_dump($conditicon);exit;
         }catch (Exception $e){
             echo $e->getMessage();
             exit;
         }
         return $data;
+    }
+    public function getth($table,$type)
+    {
+        $cookies1 = Yii::$app->request->cookies;
+        $username = $cookies1->getValue('username');
+        $self = \Yii::$app->db->createCommand("SELECT * FROM `sysuser` where uname = '" . $username . "'")->queryAll();
+        if ($self[0]['utype'] == '专家' && $table != 'museumdata') {
+            $fenlei = isset(explode(',', $self[0]['content'])[0]) ? explode(',', $self[0]['content'])[0] : '';
+            $key = self::$key_expertpoint;
+            $mean = self::$expertpoint;
+
+            for ($i = 0; $i < count($mean); $i++) {
+                if ($fenlei . '打分' == $mean[$i]) {
+                    $fenlei = $key[$i];
+                }
+            }
+            $keys = 'eid,mid,myear,' . $fenlei;
+            $return = explode(',', $keys);
+            var_dump($return);
+            $m = [];
+            $k = 0;
+            for ($i = 0; $k < count($return); $i++) {
+                if (!isset($key[$i])){
+                    break;
+                }
+                if ($return[$k] == $key[$i]) {
+                    $k++;
+                    $m[] = $mean[$i];
+                    var_dump($mean[$i]);
+                    $i = 0;
+                }
+            }
+
+            return $type != 1 ? $return : $m;
+        }
+        if ($table == 'museumdata') {
+            if ($type == 1) {
+                return self::$museumdata;
+            }
+            return self::$key_museumdata;
+         }else{
+            if ($type == 1) {
+                return self::$expertpoint;
+            }
+            return self::$key_expertpoint;
+        }
     }
 
     public function actionShenbao()
@@ -363,7 +439,7 @@ class SiteController extends Controller
         if (isset($_GET['_debug'])){
             return json_encode($data);
         }
-        return $this->render('shenbao',['model'=>$model,'data'=>$data,'th' => self::$museumdata,'keys' => self::$key_museumdata,'condition' => $condition]);
+        return $this->render('shenbao',['model'=>$model,'data'=>$data,'th' => $this->getth('museumdata',1),'keys' => $this->getth('museumdata',2),'condition' => $condition]);
     }
 
     public function actionExport(){
@@ -430,6 +506,6 @@ class SiteController extends Controller
         if (isset($_GET['_debug'])){
             return json_encode($data);
         }
-        return $this->render('dafen',['model'=>$model,'data'=>$data,'th' => self::$expertpoint,'keys' => self::$key_expertpoint,'condition' => $condition]);
+        return $this->render('dafen',['model'=>$model,'data'=>$data,'th' => $this->getth('expertpoint',1),'keys' => $this->getth('expertpoint',2),'condition' => $condition]);
     }
 }

@@ -10,7 +10,7 @@ $this->title = 'My Yii Application';
 
     <div class="body-content">
 
-
+        <?php if (Yii::$app->user->identity->username != '专家'):?>
         <?php $form = ActiveForm::begin(); ?>
 
         <?= $form->field($model, 'file')->fileInput() ?>
@@ -20,6 +20,8 @@ $this->title = 'My Yii Application';
         </div>
 
         <?php ActiveForm::end(); ?>
+
+        <?php endif?>
 
         <br><h2>历史数据</h2>
         <form action=""  method="post">
@@ -36,12 +38,18 @@ $this->title = 'My Yii Application';
                 <?php foreach ($th as $v): ?>
                     <th><?= Html::encode("{$v}") ?></th>
                 <?php endforeach;  ?>
+                <?php if (Yii::$app->user->identity->username != '专家'):?>
+                <th>操作</th>
+                <?php endif?>
             </tr>
             <?php foreach ($data as $value): ?>
                 <tr>
                     <?php foreach ($keys as $v): ?>
                     <td><?= Html::encode("{$value[$v]}") ?></td>
                     <?php endforeach;  ?>
+                    <?php if (Yii::$app->user->identity->username != '专家'):?>
+                    <td><button class="btn btn-sm btn-danger">删除</button></td>
+                    <?php endif?>
                 </tr>
             <?php endforeach;  ?>
         </table>
@@ -76,4 +84,20 @@ $this->title = 'My Yii Application';
             alert('failed');
         });
     });
+
+    $('.btn-danger').click(function () {
+        $(this).parent().parent().remove()
+        base = $(this).parent().parent().find('td');
+        mid = base.eq(0).text()
+        myear = base.eq(1).text()
+        $.post({
+            url: "/basic/web/index.php?r=site/deletemus",
+            data: {mid:mid,myear:myear},
+            dataType: "json"
+        }).done(function (ret) {
+            alert('success');
+        }).fail(function () {
+            alert('failed');
+        });
+    })
 </script>
