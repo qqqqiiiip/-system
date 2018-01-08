@@ -2,16 +2,94 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79d930e0-82a4-4f25-8663-6d4753ab8a22" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/dao/Expertpointdx.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/dao/Museumdatadx.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/site/dafendx.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/site/shenbaodx.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/site/quxian.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jQuery.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/scripts/shAutoloader.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/scripts/shAutoloader.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/scripts/shBrushJScript.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/scripts/shBrushJScript.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/scripts/shBrushXml.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/scripts/shBrushXml.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/scripts/shCore.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/scripts/shCore.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/styles/shCore.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/styles/shCore.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/styles/shCoreDefault.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/styles/shCoreDefault.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/styles/shThemeDefault.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/styles/shThemeDefault.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/styles/shThemejqPlot.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/examples/syntaxhighlighter/styles/shThemejqPlot.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/jquery.jqplot.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/jquery.jqplot.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.BezierCurveRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.BezierCurveRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.barRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.barRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.blockRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.blockRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.bubbleRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.bubbleRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.canvasAxisLabelRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.canvasAxisTickRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.canvasOverlay.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.canvasOverlay.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.canvasTextRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.canvasTextRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.categoryAxisRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.categoryAxisRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.ciParser.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.ciParser.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.cursor.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.cursor.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.dateAxisRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.dateAxisRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.donutRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.donutRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.dragable.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.dragable.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.enhancedLegendRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.enhancedLegendRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.funnelRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.funnelRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.highlighter.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.highlighter.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.json2.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.json2.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.logAxisRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.logAxisRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.mekkoAxisRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.mekkoAxisRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.mekkoRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.mekkoRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.meterGaugeRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.meterGaugeRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.mobile.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.mobile.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.ohlcRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.ohlcRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pieRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pieRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pointLabels.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pointLabels.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pyramidAxisRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pyramidAxisRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pyramidGridRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pyramidGridRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pyramidRenderer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.pyramidRenderer.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.trendline.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/jqplot/plugins/jqplot.trendline.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/css/m_jqplot.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/SiteController.php" afterPath="$PROJECT_DIR$/controllers/SiteController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/dao/Expertpoint.php" afterPath="$PROJECT_DIR$/models/dao/Expertpoint.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/dao/Museumdata.php" afterPath="$PROJECT_DIR$/models/dao/Museumdata.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/yiisoft/yii2/base/Application.php" afterPath="$PROJECT_DIR$/vendor/yiisoft/yii2/base/Application.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/db.php" afterPath="$PROJECT_DIR$/config/db.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layouts/main.php" afterPath="$PROJECT_DIR$/views/layouts/main.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/site/contact.php" afterPath="$PROJECT_DIR$/views/site/contact.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/site/jisuan.php" afterPath="$PROJECT_DIR$/views/site/jisuan.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,11 +100,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SiteController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SiteController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/SiteController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="500" column="9" lean-forward="false" selection-start-line="500" selection-start-column="9" selection-end-line="500" selection-end-column="9" />
+            <state relative-caret-position="92">
+              <caret line="484" column="24" lean-forward="false" selection-start-line="484" selection-start-column="24" selection-end-line="484" selection-end-column="24" />
               <folding>
                 <element signature="e#35#62#0#PHP" expanded="true" />
                 <marker date="1515402570000" expanded="true" signature="10283:10336" ph="SELECT * FRO... sysuser" />
@@ -43,6 +121,22 @@
             <state relative-caret-position="225">
               <caret line="33" column="127" lean-forward="false" selection-start-line="33" selection-start-column="127" selection-end-line="33" selection-end-column="127" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/layouts/main.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="172">
+              <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+              <folding>
+                <marker date="1515403084000" expanded="true" signature="2571:2898" ph="..." />
+                <marker date="1515403084000" expanded="true" signature="2987:3034" ph="..." />
+                <marker date="1515403084000" expanded="true" signature="2987:3198" ph="..." />
+                <marker date="1515403084000" expanded="true" signature="3230:3281" ph="..." />
+                <marker date="1515403084000" expanded="true" signature="3259:3271" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -164,7 +258,6 @@
         <option value="$PROJECT_DIR$/views/site/zhanghao.php" />
         <option value="$PROJECT_DIR$/views/site/dafen.php" />
         <option value="$PROJECT_DIR$/views/site/shenbao.php" />
-        <option value="$PROJECT_DIR$/views/layouts/main.php" />
         <option value="$PROJECT_DIR$/vendor/yiisoft/yii2/base/Application.php" />
         <option value="$PROJECT_DIR$/models/dao/Museumdatadx.php" />
         <option value="$PROJECT_DIR$/models/dao/Museumdata.php" />
@@ -174,6 +267,7 @@
         <option value="$PROJECT_DIR$/views/site/shenbaodx.php" />
         <option value="$PROJECT_DIR$/views/site/dafendx.php" />
         <option value="$PROJECT_DIR$/controllers/SiteController.php" />
+        <option value="$PROJECT_DIR$/views/layouts/main.php" />
       </list>
     </option>
   </component>
@@ -265,6 +359,12 @@
               <item name="basic" type="b2602c69:ProjectViewProjectNode" />
               <item name="basic" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="layouts" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="basic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="basic" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="site" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
@@ -326,7 +426,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79287000" />
+    <option name="totallyTimeSpent" value="79509000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -690,18 +790,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/layouts/main.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="40" column="37" lean-forward="false" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
-          <folding>
-            <marker date="1515399276000" expanded="true" signature="2986:3033" ph="..." />
-            <marker date="1515399276000" expanded="true" signature="3229:3280" ph="..." />
-            <marker date="1515399276000" expanded="true" signature="3258:3270" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/yiisoft/yii2/base/Application.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -813,13 +901,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/SiteController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="500" column="9" lean-forward="false" selection-start-line="500" selection-start-column="9" selection-end-line="500" selection-end-column="9" />
+        <state relative-caret-position="92">
+          <caret line="484" column="24" lean-forward="false" selection-start-line="484" selection-start-column="24" selection-end-line="484" selection-end-column="24" />
           <folding>
             <element signature="e#35#62#0#PHP" expanded="true" />
             <marker date="1515402570000" expanded="true" signature="10283:10336" ph="SELECT * FRO... sysuser" />
             <marker date="1515402570000" expanded="true" signature="12621:12678" ph="SELECT * FRO... sysuser" />
             <marker date="1515402570000" expanded="true" signature="18113:18121" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layouts/main.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding>
+            <marker date="1515403084000" expanded="true" signature="2571:2898" ph="..." />
+            <marker date="1515403084000" expanded="true" signature="2987:3034" ph="..." />
+            <marker date="1515403084000" expanded="true" signature="2987:3198" ph="..." />
+            <marker date="1515403084000" expanded="true" signature="3230:3281" ph="..." />
+            <marker date="1515403084000" expanded="true" signature="3259:3271" ph="..." />
           </folding>
         </state>
       </provider>

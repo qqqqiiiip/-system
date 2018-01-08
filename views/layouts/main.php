@@ -61,6 +61,7 @@ AppAsset::register($this);
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='专家') ||
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ? ['label' => '打分表管理功能(定性)', 'url' => ['/site/dafendx']] : '',
             !Yii::$app->user->isGuest ?['label' => 'jisuan', 'url' => ['/site/jisuan']] : '',
+
             !Yii::$app->user->isGuest ?['label' => '统计', 'url' => ['/site/contact']] : '',
             !Yii::$app->user->isGuest ? ['label' => '账号管理', 'url' => ['/site/zhanghao']] : '',
             Yii::$app->user->isGuest ? (
