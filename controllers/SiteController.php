@@ -9,7 +9,9 @@ use app\models\dao\Museumdata;
 use app\models\dao\Museumdlpoint;
 use app\models\dao\Museumdxpoint;
 use app\models\dao\Museuminfo;
+use app\models\Sysuser;
 use app\models\UploadForm;
+use app\models\User;
 use yii\web\UploadedFile;
 use Yii;
 use yii\db\Exception;
@@ -131,7 +133,6 @@ class SiteController extends Controller
         if (!empty($info['upassword'])) {
             $db->createCommand()->update('`sysuser`', ['upassword' => $info['upassword']], 'uname=:uname', [':uname' => $info['uname']])->execute();
         }
-
         $db->createCommand()->update('`sysuser`',['content'=>$info['ucontent']],'uname=:uname',[':uname'=>$info['uname']])->execute();
 
         return true;
@@ -140,10 +141,8 @@ class SiteController extends Controller
     public function actionAdd()
     {
         $info =Yii::$app->request->post();
-
-        $db = new \yii\db\Query();
-        $db->createCommand()->insert('`sysuser`',['utype'=>$info['utype'],'upassword'=>123456,'content'=>$info['ucontent'],'uname'=>$info['uname']])->execute();
-        return true;
+        unset($info['r']);
+        return Sysuser::add($info);
     }
 
 

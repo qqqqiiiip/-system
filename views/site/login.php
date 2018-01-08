@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'labelOptions' => ['class' => 'col-lg-1 control-label'],
         ],
     ]); ?>
+<!--        <?//= $form->field($model, 'type')->radioList(array(0=>'博物馆',1=>'专家',2=>'管理员')); ?>-->
 
         <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
