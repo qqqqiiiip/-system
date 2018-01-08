@@ -5,7 +5,9 @@ namespace app\controllers;
 use app\models\dao\GetInfo;
 use app\models\dao\Expertinfo;
 use app\models\dao\Expertpoint;
+use app\models\dao\Expertpointdx;
 use app\models\dao\Museumdata;
+use app\models\dao\Museumdatadx;
 use app\models\dao\Museumdlpoint;
 use app\models\dao\Museumdxpoint;
 use app\models\dao\Museuminfo;
@@ -24,12 +26,11 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 class SiteController extends Controller
 {
-    public static $museumdata = ['博物馆记录号','评审年份','藏品搜集数量/件','藏品修复数量/件','省部级以上研究项目（包含国际合作研究项目） /项','横向合作研究项目/项','其他研究项目/项','省部级以上获奖成果/项','著作/部','图录/本','论文/篇','科普读物、教材/本','获得专利数/项','举办国际性学术会议/次','举办国内学术会议/次','参加国际性学术会议/人次','参加国内学术会议/人次','省部级以上获奖陈列展览/个','原创性临时展览/个','引进临时展览/个','输出原创性展览/个','观众数/万人','专题讲座、论坛/项','中小学教育项目/项','家庭教育项目/项','社区教育项目/项','教师培训项目/项','其他教育项目/项','获省部级（含）以上的荣誉称号和获奖者（50岁以下） /人','高级职称者（45岁以下） /人','出国进修（培训）人员（含访问学者） /人','国内进修（培训） 人员/人'];
-    public static $key_museumdata = ['mid','myear','mdl111','mdl121','mdl211','mdl212','mdl213','mdl221','mdl222','mdl223','mdl224','mdl225','mdl226','mdl231','mdl232','mdl233','mdl234','mdl311','mdl312','mdl313','mdl314','mdl315','mdl321','mdl322','mdl323','mdl324','mdl325','mdl326','mdl411','mdl412','mdl421','mdl422'];
+    public static $dl = ['博物馆记录号','评审年份','藏品搜集数量/件','藏品修复数量/件','省部级以上研究项目（包含国际合作研究项目） /项','横向合作研究项目/项','其他研究项目/项','省部级以上获奖成果/项','著作/部','图录/本','论文/篇','科普读物、教材/本','获得专利数/项','举办国际性学术会议/次','举办国内学术会议/次','参加国际性学术会议/人次','参加国内学术会议/人次','省部级以上获奖陈列展览/个','原创性临时展览/个','引进临时展览/个','输出原创性展览/个','观众数/万人','专题讲座、论坛/项','中小学教育项目/项','家庭教育项目/项','社区教育项目/项','教师培训项目/项','其他教育项目/项','获省部级（含）以上的荣誉称号和获奖者（50岁以下） /人','高级职称者（45岁以下） /人','出国进修（培训）人员（含访问学者） /人','国内进修（培训） 人员/人'];
+    public static $key_dl = ['mid','myear','mdl111','mdl121','mdl211','mdl212','mdl213','mdl221','mdl222','mdl223','mdl224','mdl225','mdl226','mdl231','mdl232','mdl233','mdl234','mdl311','mdl312','mdl313','mdl314','mdl315','mdl321','mdl322','mdl323','mdl324','mdl325','mdl326','mdl411','mdl412','mdl421','mdl422'];
 
-    public static $expertpoint = ['专家记录号','博物馆记录号','评审年份','藏品搜集打分','藏品保护打分','藏品保管打分','学术活动打分','代表性研究成果打分','基本陈列打分','代表性原创临时展览打分','博物馆讲解打分','教育项目打分','公共关系打分','公众服务打分','博物馆网站打分','发展规划打分','制度建设打分','安全管理打分','人才培养打分'];
-    public static $key_expertpoint = ['eid','mid','myear','ep11','ep12','ep13','ep21','ep22','ep31','ep32','ep33','ep34','ep41','ep42','ep43','ep51','ep52','ep53','ep54'];
-
+    public static $key_dx = ['mid','myear','ep11','ep12','ep13','ep21','ep22','ep31','ep32','ep33','ep34','ep41','ep42','ep43','ep51','ep52','ep53','ep54'];
+    public static $dx = ['专家记录号','博物馆记录号','评审年份','藏品搜集打分','藏品保护打分','藏品保管打分','学术活动打分','代表性研究成果打分','基本陈列打分','代表性原创临时展览打分','博物馆讲解打分','教育项目打分','公共关系打分','公众服务打分','博物馆网站打分','发展规划打分','制度建设打分','安全管理打分','人才培养打分'];
 
     public function init(){
         $this->enableCsrfValidation = false;
@@ -341,16 +342,29 @@ class SiteController extends Controller
             $username = $cookies1->getValue('username');
             $self = \Yii::$app->db->createCommand("SELECT * FROM `sysuser` where uname = '".$username."'")->queryAll();
             $keys = implode(',',$key_list);
-            if ($self[0]['utype'] == '专家' && $table == 'expertpoint'){
+            if ($self[0]['utype'] == '专家' && ($table == 'expertpoint' || $table == 'expertpointdx')){
                 $fenlei = isset(explode(',',$self[0]['content'])[0]) ? explode(',',$self[0]['content'])[0]:'';
-                $key = self::$key_expertpoint ;
-                $mean = self::$expertpoint;
+
+                $key = $table == 'expertpoint' ? self::$key_dl : self::$key_dx;
+                $mean = $table == 'expertpoint' ? self::$dl : self::$dx;
+                $keys = 'eid,mid,myear';
                 for ($i = 0 ; $i < count($mean); $i++){
-                    if ($fenlei . '打分' == $mean[$i]){
-                        $fenlei = $key[$i];
+                    if ($fenlei  == $mean[$i]){
+                        $res = $key[$i];
                     }
                 }
-                $keys = 'eid,mid,myear,' . $fenlei;
+                if (empty($res)){
+                    $key = self::$key_dx ;
+                    $mean = self::$dx;
+                    $keys = 'eid,mid,myear';
+                    for ($i = 0 ; $i < count($mean); $i++){
+                        if ($fenlei  == $mean[$i]){
+                            $res = $key[$i];
+                        }
+                    }
+                }
+                $keys .=  ','. $res;
+
             }
             $db = $db->select($keys);
 
@@ -358,10 +372,10 @@ class SiteController extends Controller
             if (!Yii::$app->user->isGuest && $cookies1->has('uid')) {
                 $id = $cookies1->getValue('uid');
             }
-            if ($table === 'museumdata' && Yii::$app->user->identity->username === '博物馆'){
+            if (($table === 'museumdata' || $table === 'museumdatadx') && Yii::$app->user->identity->username === '博物馆'){
                 $db = $db->where(['mid' => $id]);
             }
-            if ($table === 'expertpoint' && Yii::$app->user->identity->username === '专家'){
+            if (($table === 'expertpoint' || $table === 'expertpointdx') && Yii::$app->user->identity->username === '专家'){
                 $db = $db->where(['eid' => $id]);
             }
             if (!empty($conditicon)) {
@@ -374,7 +388,6 @@ class SiteController extends Controller
             }
 
             $data = $db->from($table)->all();
-//            var_dump($conditicon);exit;
         }catch (Exception $e){
             echo $e->getMessage();
             exit;
@@ -386,10 +399,10 @@ class SiteController extends Controller
         $cookies1 = Yii::$app->request->cookies;
         $username = $cookies1->getValue('username');
         $self = \Yii::$app->db->createCommand("SELECT * FROM `sysuser` where uname = '" . $username . "'")->queryAll();
-        if ($self[0]['utype'] == '专家' && $table != 'museumdata') {
+        if ($self[0]['utype'] == '专家') {
             $fenlei = isset(explode(',', $self[0]['content'])[0]) ? explode(',', $self[0]['content'])[0] : '';
-            $key = self::$key_expertpoint;
-            $mean = self::$expertpoint;
+            $key = $table == 'dl' ? self::$key_dl : self::$key_dx ;
+            $mean = $table == 'dl' ? self::$dl : self::$dx ;
 
             for ($i = 0; $i < count($mean); $i++) {
                 if ($fenlei . '打分' == $mean[$i]) {
@@ -415,16 +428,16 @@ class SiteController extends Controller
 
             return $type != 1 ? $return : $m;
         }
-        if ($table == 'museumdata') {
+        if ($table == 'dl') {
             if ($type == 1) {
-                return self::$museumdata;
+                return self::$dl;
             }
-            return self::$key_museumdata;
+            return self::$key_dl;
          }else{
             if ($type == 1) {
-                return self::$expertpoint;
+                return self::$dx;
             }
-            return self::$key_expertpoint;
+            return self::$key_dx;
         }
     }
 
@@ -435,11 +448,25 @@ class SiteController extends Controller
         }
         $model = new Museumdata();
         $condition = $this->postData();
-        $data = $this->getInfo(self::$key_museumdata,'museumdata',$condition);
+        $data = $this->getInfo(self::$key_dl,'museumdata',$condition);
         if (isset($_GET['_debug'])){
             return json_encode($data);
         }
-        return $this->render('shenbao',['model'=>$model,'data'=>$data,'th' => $this->getth('museumdata',1),'keys' => $this->getth('museumdata',2),'condition' => $condition]);
+        return $this->render('shenbao',['model'=>$model,'data'=>$data,'th' => $this->getth('dl',1),'keys' => $this->getth('dl',2),'condition' => $condition]);
+    }
+
+    public function actionShenbaodx()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $model = new Museumdatadx();
+        $condition = $this->postData();
+        $data = $this->getInfo(self::$key_dx,'museumdatadx',$condition);
+        if (isset($_GET['_debug'])){
+            return json_encode($data);
+        }
+        return $this->render('shenbaodx',['model'=>$model,'data'=>$data,'th' => $this->getth('dx',1),'keys' => $this->getth('dx',2),'condition' => $condition]);
     }
 
     public function actionExport(){
@@ -447,9 +474,31 @@ class SiteController extends Controller
             exit;
         }
         ob_start();
-        $table = $_GET['type'] == 'muse' ? 'museumdata' : 'expertpoint';
-        $key = $_GET['type'] == 'muse' ? self::$key_museumdata : self::$key_expertpoint;
-        $title = $_GET['type'] == 'muse' ? self::$museumdata : self::$expertpoint;
+        switch ($_GET['type']){
+            case 'muse':
+                $table = 'museumdata';
+                $key = self::$key_dl;
+                $title = self::$dl;
+                break;
+            case 'musedx':
+                $table = 'museumdatadx';
+                $key = self::$key_dx;
+                $title = self::$dx;
+                break;
+            case 'expert':
+                $table = 'expertpoint';
+                $key = self::$key_dl;
+                $title = self::$dl;
+                break;
+            case 'expertdx':
+                $table = 'expertpointdx';
+                $key = self::$key_dx;
+                $title = self::$dx;
+                break;
+        }
+        if (empty($key) || empty($table) || empty($title)){
+            return;
+        }
         $condition = json_decode($_GET['condition'],true);
         $data =  $this->getInfo($key,$table,$condition);
         $result = [];
@@ -502,10 +551,24 @@ class SiteController extends Controller
         }
         $model = new Expertpoint();
         $condition = $this->postData();
-        $data = $this->getInfo(self::$key_expertpoint,'expertpoint',$condition);
+        $data = $this->getInfo(self::$key_dl,'expertpoint',$condition);
         if (isset($_GET['_debug'])){
             return json_encode($data);
         }
-        return $this->render('dafen',['model'=>$model,'data'=>$data,'th' => $this->getth('expertpoint',1),'keys' => $this->getth('expertpoint',2),'condition' => $condition]);
+        return $this->render('dafen',['model'=>$model,'data'=>$data,'th' => $this->getth('dl',1),'keys' => $this->getth('dl',2),'condition' => $condition]);
+    }
+
+    public function actionDafendx()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $model = new Expertpointdx();
+        $condition = $this->postData();
+        $data = $this->getInfo(self::$key_dx,'expertpointdx',$condition);
+        if (isset($_GET['_debug'])){
+            return json_encode($data);
+        }
+        return $this->render('dafendx',['model'=>$model,'data'=>$data,'th' => $this->getth('dx',1),'keys' => $this->getth('dx',2),'condition' => $condition]);
     }
 }

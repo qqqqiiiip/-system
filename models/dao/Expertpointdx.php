@@ -1,24 +1,20 @@
 <?php
 
 namespace app\models\dao;
-
-use app\controllers\SiteController;
+use yii\web\UploadedFile;
 use Yii;
 use yii\base\Model;
-use yii\db\Exception;
-use yii\web\UploadedFile;
-
+use app\controllers\SiteController;
 /**
  * ContactForm is the model behind the contact form.
  */
-class Museumdata extends Model
+class Expertpointdx extends Model
 {
-    public $begin;
-    public $end;
     public $file;
     public $subject;
     public $body;
     public $verifyCode;
+
 
     /**
      * @return array the validation rules.
@@ -30,8 +26,6 @@ class Museumdata extends Model
             [['file'], 'file', 'extensions' => 'xls'],
         ];
     }
-
-
     /**
      * @return array customized attribute labels
      */
@@ -41,7 +35,7 @@ class Museumdata extends Model
         if (Yii::$app->request->isPost) {
             $model->file = UploadedFile::getInstances($model, 'file');
             if (!empty($model->file[0]->tempName)) {
-                $result = SiteController::upload(SiteController::$key_dl, $model->file, 'museumdata');
+                $result = SiteController::upload(SiteController::$key_dx, $model->file, 'expertpointdx');
                 echo $result;
                 exit;
             }

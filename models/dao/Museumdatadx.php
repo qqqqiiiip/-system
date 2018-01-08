@@ -11,7 +11,7 @@ use yii\web\UploadedFile;
 /**
  * ContactForm is the model behind the contact form.
  */
-class Museumdata extends Model
+class Museumdatadx extends Model
 {
     public $begin;
     public $end;
@@ -41,7 +41,7 @@ class Museumdata extends Model
         if (Yii::$app->request->isPost) {
             $model->file = UploadedFile::getInstances($model, 'file');
             if (!empty($model->file[0]->tempName)) {
-                $result = SiteController::upload(SiteController::$key_dl, $model->file, 'museumdata');
+                $result = SiteController::upload(SiteController::$key_dx, $model->file, 'museumdatadx');
                 echo $result;
                 exit;
             }
