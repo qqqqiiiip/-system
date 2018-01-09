@@ -26,26 +26,14 @@ $this->title = 'My Yii Application';
         <?php ActiveForm::end(); ?>
 
         <br>
-        <form action=""  method="post">
-            评审年份:<select name="myear"  id="myYear"">
-                <option value=""></option>
+            评审年份:
+            <select name="myear"  id="myYear"">
             </select>
-            <input type="hidden" name="key_list" value="myear">
-            <input class=""   type="submit" value="生成" >
-        </form>
-        <table  class='table table-hover' >
-              <tr>
-
-                <td width='200'>序号</td>
-                <td width='200'> 博物馆</td>
-                <td width='200'> 定性总分</td>
-                <td width='180'> 定量总分</td>
-                <td width='180'> 总分</td>
-                <td width='100'> 排名</td>
-
-                </tr>"
-              </table>
-
+            <select name="type"  id="type"">
+            <option value="dl">定量分</option>
+            <option value="dx">定性分</option>
+            </select>
+            <input class=""   type="submit" id="submit" value="生成" >
 
     </div>
 </div>
@@ -61,4 +49,19 @@ $this->title = 'My Yii Application';
             obj.options.add(new Option(i,i));
         }
     }
+
+    $('#submit').click(function () {
+        year = $('#myYear').val();
+        type = $('#type').val();
+        $.get({
+            url: "/basic/web/index.php?r=site/cal",
+            data: {year:year,type:type},
+            dataType: "json"
+        }).done(function (ret) {
+            alert('success');
+            window.location.reload()
+        }).fail(function () {
+            alert('failed');
+        });
+    });
 </script>

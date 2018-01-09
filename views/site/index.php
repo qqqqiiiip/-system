@@ -8,22 +8,9 @@ $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
-
-
-        <?php $form = ActiveForm::begin(); ?>
-
-        <?= $form->field($model, 'begin') ?>
-
-        <?= $form->field($model, 'end') ?>
-
-        <div class="form-group">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
-    </div>
-
+    <h1>简介:</h1>
+        <p>1.公平</p>
+        <p>2.</p>
     <div class="body-content">
 
         <div class="row">

@@ -9,41 +9,24 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="body-content">
+        <form action="/basic/web/index.php?r=site/contact&type=muse"  method="post">
 
-        <?php $form = ActiveForm::begin(); ?>
-
-        <div class="form-group">
-        <select style ="height : 30px">
-        <option id ="volvo">总分排名 </option>
-        <option id ="saab">定量总排名</option>
-        <option id="opel">定量一级排名</option>
-        <option id="audi">定量一级类别排名</option>
-        <option id="di">定量一级级别排名</option>
-        <option id="opel1">定量二级排名</option>
-        <option id="audi1">定量二级类别排名</option>
-        <option id="di1">定量二级级别排名</option>
-
-      </select>
+            <select style ="height : 30px" name="type">
+                <option value ="">总分排名 </option>
+                <option value ="dl">定量排名</option>
+                <option value="dx">定性排名</option>
+            </select>
+            博物馆名称搜索:<input type="text" name="muse" value="">
 
 
-        </div>
-
-        <?php ActiveForm::end(); ?>
-
-        <br>
-        博物馆名称搜索:<input type="text" name="ep11" value="">
-
-        <form action=""  method="post">
-<div style ="margin:0 auto;">
-            评审年份 :<select style ="margin-left : 38px"   name="myear"  id="myYear">
-                <option value=""></option>
+            评审年份:<select name="myear"  id="myYear"">
+            <option value=""></option>
             </select>
             <input type="hidden" name="key_list" value="myear">
-
-            <input class=""   type="submit" value="搜索">
-</div>
+            <input class=""   type="submit" value="筛选" >
         </form>
-        <table  class='table table-hover'  style ="display:none"; id='zfpm'>
+
+        <table  class='table table-hover' id='zfpm'>
               <tr>
 
                 <td width='100'>序号</td>
@@ -56,6 +39,21 @@ $this->title = 'My Yii Application';
                 <td width='200'> 定量总分排名</td>
 
                 </tr>
+            <?php foreach ($data as $value): ?>
+                <tr>
+                    <td><?= Html::encode("{$value[0]}") ?></td>
+                    <td><?= Html::encode("{$value['uname']}") ?></td>
+                    <td><?= Html::encode("{$value['fenlei']}") ?></td>
+                    <td><?= Html::encode("{$value['level']}") ?></td>
+                    <td><?= Html::encode("{$value['myear']}") ?></td>
+                    <td><?= Html::encode("{$value['score']}") ?></td>
+                    <td><?= Html::encode("{$value['dx']}") ?></td>
+                    <td><?= Html::encode("{$value['dl']}") ?></td>
+
+                </tr>
+            <?php endforeach;  ?>
+
+
               </table>
               <table  class='table table-hover'  style ="display:none"; id='dlzpm'>
                     <tr>

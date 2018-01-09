@@ -28,8 +28,9 @@ $this->title = 'My Yii Application';
             评审年份:<select name="myear"  id="myYear"">
                 <option value=""></option>
             </select>
-            藏品搜集打分:<input type="text" name="ep11" value="">
-            <input type="hidden" name="key_list" value="myear,ep11">
+            专家id:<input type="text" name="eid" value="">
+            博物馆id:<input type="text" name="mid" value="">
+            <input type="hidden" name="key_list" value="myear,mid,eid">
             <input class=""   type="submit" value="筛选" >
         </form>
         <button id="export" class="btn-success btn-sm btn"><a target="_blank" href="/basic/web/index.php?r=site/export&type=expertdx&condition=<?= Html::encode(json_encode($condition)) ?>">导出excel</a></button>
@@ -43,7 +44,12 @@ $this->title = 'My Yii Application';
             <?php foreach ($data as $value): ?>
                 <tr>
                     <?php foreach ($keys as $v): ?>
-                        <td><?= Html::encode("{$value[$v]}") ?></td>
+                        <?php if (!empty($value[$v])):?>
+                            <td><?= Html::encode("{$value[$v]}") ?></td>
+                        <?php endif?>
+                        <?php if (empty($value[$v])):?>
+                            <td></td>
+                        <?php endif?>
                     <?php endforeach;  ?>
                     <?php if (Yii::$app->user->identity->username != '博物馆'):?>
                     <td><button class="btn btn-sm btn-danger">删除</button></td>

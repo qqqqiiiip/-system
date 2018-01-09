@@ -37,8 +37,19 @@ class ContactForm extends Model
      */
     public function attributeLabels()
     {
+        $dx = \Yii::$app->db->createCommand("SELECT * FROM resultdx order by mid")->queryAll();
+        $sum_dx = 0;
+        foreach ($dx as $v){
+            $sum_dx += intval($v);
+        }
+        $dl = \Yii::$app->db->createCommand("SELECT * FROM resultdl order by mid")->queryAll();
+        $sum_dl = 0;
+        foreach ($dl as $v){
+            $sum_dl += intval($v);
+        }
+
         return [
-            'verifyCode' => 'Verification Code',
+            $sum_dl,$sum_dx
         ];
     }
 

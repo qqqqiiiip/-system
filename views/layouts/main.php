@@ -48,6 +48,7 @@ AppAsset::register($this);
     $username = '';
     if (!Yii::$app->user->isGuest && $cookies1->has('username')) {
         $username = $cookies1->getValue('username');
+        $id = $cookies1->getValue('uid');
     }
 
     echo Nav::widget([
@@ -55,12 +56,9 @@ AppAsset::register($this);
         'items' => [
             !Yii::$app->user->isGuest ? ['label' => '主页', 'url' => ['/site/index']] : '',
             !Yii::$app->user->isGuest  ? ['label' => '申报表管理（定量）', 'url' => ['/site/shenbao']] : '',
-            !Yii::$app->user->isGuest  ? ['label' => '申报表管理（定性）', 'url' => ['/site/shenbaodx']] : '',
-            (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='专家') ||
-            (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ? ['label' => '打分表管理功能(定量）', 'url' => ['/site/dafen']] : '',
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='专家') ||
             (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ? ['label' => '打分表管理功能(定性)', 'url' => ['/site/dafendx']] : '',
-            !Yii::$app->user->isGuest ?['label' => 'jisuan', 'url' => ['/site/jisuan']] : '',
+            (!Yii::$app->user->isGuest && Yii::$app->user->identity->username ==='管理员') ?['label' => '计算', 'url' => ['/site/jisuan']] : '',
 
             !Yii::$app->user->isGuest ?['label' => '统计', 'url' => ['/site/contact']] : '',
             !Yii::$app->user->isGuest ? ['label' => '账号管理', 'url' => ['/site/zhanghao']] : '',
@@ -70,7 +68,7 @@ AppAsset::register($this);
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' .$username . ' - '. Yii::$app->user->identity->username  .  ')',
+                    'Logout [ ' .$username .   '(id:'.$id.') - '. Yii::$app->user->identity->username  . ')]',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

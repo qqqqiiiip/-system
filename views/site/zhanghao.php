@@ -21,7 +21,9 @@ if (!Yii::$app->user->isGuest && $cookies1->has('username')) {
         $self[0]['content_a'] .= $v . ',';
     }
     $self[0]['content_a'] = trim($self[0]['content_a'],',');
-    $self[0]['content'] = isset(explode(',',$self[0]['content'])[count($self[0]['content'])]) ? explode(',',$self[0]['content'])[count($self[0]['content'])] : '';
+    $a = explode(',',$self[0]['content']);
+    $x = count($self[0]['content']);
+    $self[0]['content'] = isset($a[$x+1]) ? $a[$x+1] : (isset($a[$x]) ? $a[$x] : '');
     $self = $self[0];
 }
 
@@ -85,6 +87,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
 
     <button class="btn btn-sm btn-primary" id="muse">博物馆</button>
     <button class="btn btn-sm btn-primary" id="expt">专家管理</button>
+        <button class="btn btn-sm btn-primary" id="opt">管理员管理</button>
     <button class="btn btn-sm btn-primary" id="add">增加账号</button>
     <?php endif?>
     <table id="person-table">
@@ -92,13 +95,15 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
             <th>用户名</th>
             <th>密码</th>
             <th>简介</th>
+            <th>uid(上传必填)</th>
             <th>操作</th>
         </tr>
         <tr>
             <td ><input type="text" value="<?= Html::encode("{$self['uname']}") ?>" readonly></td>
             <td class="label-primary"><input type="text" value="<?= Html::encode("{$self['upassword']}") ?>"></td>
             <td class="label-primary"><input type="text" value="<?= Html::encode("{$self['content']}") ?>"></td>
-            <td style="display: none"><input type="text" value="<?= Html::encode("{$self['content_a']}") ?>"></td>
+            <td style="display: none"><input type="text" value="<?= Html::encode("{$self['content_a']}") ?>" readonly></td>
+            <td><input type="text" value="<?= Html::encode("{$self['uid']}") ?>" readonly></td>
             <td><button class="btn btn-sm btn-primary">更新</button></td>
         </tr>
     </table>
@@ -130,6 +135,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
             <th>用户名</th>
             <th>简介</th>
             <th>类型</th>
+            <th>uid(上传必填)</th>
             <th>操作</th>
         </tr>
     <?php foreach ($opt as $value): ?>
@@ -139,6 +145,8 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
             <td>
                 <input type="text" name="type" id="type" value="<?= Html::encode("{$value['type']}") ?>" readonly>
             </td>
+            <td><input type="text" value="<?= Html::encode("{$value['uid']}") ?>"readonly></td>
+
             <td><button class="btn btn-sm btn-danger">删除</button> <button class="btn btn-sm btn-primary">保存</button></td>
         </tr>
     <?php endforeach;  ?>
@@ -149,6 +157,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
             <th>简介</th>
             <th>方向</th>
             <th>类型</th>
+            <th>uid(上传必填)</th>
             <th>操作</th>
         </tr>
         <?php foreach ($exp as $value): ?>
@@ -157,6 +166,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
                 <td class="label-primary"><input type="text" value="<?= Html::encode("{$value['content']}") ?>"></td>
                 <td class="label-primary"><input type="text" value="<?= Html::encode("{$value['fenlei']}") ?>"></td>
                 <td><input type="text" name="type" id="type" value="<?= Html::encode("{$value['type']}") ?>" readonly></td>
+                <td><input type="text" value="<?= Html::encode("{$value['uid']}") ?>"readonly></td>
                 <td><button class="btn btn-sm btn-danger">删除</button> <button class="btn btn-sm btn-primary">保存</button></td>
             </tr>
         <?php endforeach;  ?>
@@ -168,6 +178,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
             <th>等级</th>
             <th>分类</th>
             <th>类型</th>
+            <th>uid(上传必填)</th>
             <th>操作</th>
         </tr>
     <?php foreach ($muse as $value): ?>
@@ -177,6 +188,7 @@ if (!Yii::$app->user->isGuest && Yii::$app->user->identity->username == '管理�
             <td class="label-primary"><input type="text" value="<?= Html::encode("{$value['level']}") ?>"></td>
             <td class="label-primary"><input type="text" value="<?= Html::encode("{$value['fenlei']}") ?>"></td>
             <td><input type="text" name="type" id="type" value="<?= Html::encode("{$value['type']}") ?>" readonly></td>
+            <td><input type="text" value="<?= Html::encode("{$value['uid']}") ?>" readonly></td>
             <td><button class="btn btn-sm btn-danger">删除</button> <button class="btn btn-sm btn-primary">保存</button></td>
         </tr>
     <?php endforeach;  ?>

@@ -96,7 +96,7 @@ abstract class Application extends Module
     /**
      * @var string the application name.
      */
-    public $name = '';
+    public $name = 'Museum Operational Evaluation System';
     /**
      * @var string the charset currently used for the application.
      */
