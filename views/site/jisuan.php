@@ -12,16 +12,6 @@ $this->title = 'My Yii Application';
 
         <?php $form = ActiveForm::begin(); ?>
 
-        <div class="form-group">
-          <select>
-        <option value ="volvo">Volvo</option>
-        <option value ="saab">Saab</option>
-        <option value="opel">Opel</option>
-        <option value="audi">Audi</option>
-      </select>
-
-
-        </div>
 
         <?php ActiveForm::end(); ?>
 

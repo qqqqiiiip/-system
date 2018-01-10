@@ -34,9 +34,9 @@ $this->title = 'My Yii Application';
                 <td width='180'> 博物馆类型</td>
                 <td width='180'> 博物馆级别</td>
                 <td width='180'> 年份</td>
-                <td width='180'> 总分排名</td>
-                <td width='200'> 定性总分排名</td>
-                <td width='200'> 定量总分排名</td>
+                <td width='180'> 总分</td>
+                <td width='200'> 定性总分</td>
+                <td width='200'> 定量总分</td>
 
                 </tr>
             <?php foreach ($data as $value): ?>
